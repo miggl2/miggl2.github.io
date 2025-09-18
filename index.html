@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로스트아크 젬 가공 효율 계산기</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💎 젬 가공 효율 계산기</h1>
+            <p>선택한 등급의 젬을 최적의 전략으로 가공했을 때의 평균적인 결과를 계산합니다.</p>
+        </header>
+
+        <main>
+            <div class="settings">
+                <div class="setting-item">
+                    <label for="gem-grade-select">분석할 젬 등급:</label>
+                    <select id="gem-grade-select">
+                        <option value="hero">영웅</option>
+                        <option value="rare">희귀</option>
+                        <option value="adv">고급</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label for="simulation-runs-input">시뮬레이션 횟수:</label>
+                    <input type="number" id="simulation-runs-input" value="10000" step="1000">
+                </div>
+                <div class="setting-item" id="crystal-price-section">
+                    <label for="crystal-price-input">크리스탈 95개 가격:</label>
+                    <input type="number" id="crystal-price-input" value="9468">
+                </div>
+                <div class="price-inputs">
+                    <div class="setting-item">
+                        <label for="hero-price-input">영웅 젬 가격:</label>
+                        <input type="number" id="hero-price-input" value="143390">
+                    </div>
+                    <div class="setting-item">
+                        <label for="rare-price-input">희귀 젬 가격:</label>
+                        <input type="number" id="rare-price-input" value="39500">
+                    </div>
+                    <div class="setting-item">
+                        <label for="adv-price-input">고급 젬 가격:</label>
+                        <input type="number" id="adv-price-input" value="2790">
+                    </div>
+                </div>
+                <div class="pheon-section">
+                    <div class="setting-item">
+                        <input type="checkbox" id="include-pheon-checkbox" checked>
+                        <label for="include-pheon-checkbox">페온 가격 포함</label>
+                    </div>
+                    <div class="setting-item">
+                        <input type="checkbox" id="use-reset-ticket-checkbox" checked>
+                        <label for="use-reset-ticket-checkbox">초기화 권 사용 고려</label>
+                    </div>
+                </div>
+                <button id="calculate-btn">분석 시작</button>
+            </div>
+
+            <div id="results-container" class="results-container hidden">
+                <h2>순수 포인트 분석 결과</h2>
+                <div id="loading" class="hidden">
+                    <div class="spinner"></div>
+                    <p>수많은 경우의 수를 시뮬레이션 하는 중입니다. 잠시만 기다려 주세요...</p>
+                </div>
+                <div id="results-summary" class="hidden">
+                    <div class="result-item">
+                        <h3>1점당 평균 소모 젬</h3>
+                        <p id="gems-per-point">0개</p>
+                        <div class="point-distribution">
+                            <span id="net-point-2-count">2점: 0개</span>
+                            <span id="net-point-1-count">1점: 0개</span>
+                            <span id="net-point-0-count">0점: 0개</span>
+                            <span id="net-point-neg-count">음수: 0개</span>
+                        </div>
+                    </div>
+                    <div class="result-item highlight">
+                        <h3>1점당 평균 소모 골드</h3>
+                        <p id="gold-per-point">0 G</p>
+                        <div class="cost-breakdown">
+                            <span id="gem-cost-breakdown">- 젬: 0 G</span>
+                            <span id="pheon-cost-breakdown">- 페온: 0 G</span>
+                            <span id="processing-cost-breakdown">- 가공: 0 G</span>
+                            <span id="reset-cost-breakdown">- 초기화: 0 G</span>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <h3>젬/페온 제외 소모 골드</h3>
+                        <p id="processing-gold-per-point">0 G</p>
+                        <span>(가공비 + 초기화 비용)</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>순수 포인트는 "질서/혼돈 포인트 - 의지력 소모량"입니다. <br>안정/침식 젬을 기준으로 만들었습니다.<br>가공 후 생길 전설~고대 젬은 고려하지 않습니다. </p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
